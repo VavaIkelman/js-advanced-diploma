@@ -53,4 +53,5 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
   ],
+  target: ['web', 'es5'],
 };
