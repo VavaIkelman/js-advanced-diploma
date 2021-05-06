@@ -1,6 +1,7 @@
 export default class GameState {
   static from(object) {
     // TODO: create object
-    return null;
+    this.obj = object;
+    return this.obj;
   }
 }

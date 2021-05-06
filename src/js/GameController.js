@@ -1,16 +1,18 @@
 import GamePlay from './GamePlay';
 import themes from './themes';
+import { Team, EnemyTeam } from './Team';
 
 export default class GameController {
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
     this.stateService = stateService;
+    this.playerTeam = new Team();
+    this.enemyTeam = new Team();
+    this.selectedCharacter = 0;
   }
 
   init() {
-    // TODO: add event listeners to gamePlay events
-    // TODO: load saved stated from stateService
-    this.gamePlay.drawUi('prairie');
+    this.gamePlay.drawUi('desert');// пока для отрисовки 1го уровня прерии
   }
 
   onCellClick(index) {

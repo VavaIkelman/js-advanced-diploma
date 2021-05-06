@@ -37,6 +37,26 @@ export default class GamePlay {
       </div>
       <div class="board-container">
         <div data-id="board" class="board"></div>
+        <div data-id="scores" class="scores">
+          <div class="level">
+            <span></span>
+          </div>
+          <div class="points">
+            <span>points: 0</span>
+          </div>
+          <div class="leaderboard">
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+            <div class="result">0</div>
+          </div>
+        </div>
       </div>
     `;
 
@@ -49,6 +69,12 @@ export default class GamePlay {
     this.loadGameEl.addEventListener('click', (event) => this.onLoadGameClick(event));
 
     this.boardEl = this.container.querySelector('[data-id=board]');
+    this.scoresEl = this.container.querySelector('[data-id=scores]');
+
+    this.currentLevel = this.scoresEl.querySelector('.level');
+    this.points = this.scoresEl.querySelector('.points');
+    this.leaderBoard = this.scoresEl.querySelector('.leaderboard');
+    this.results = Array.from(this.leaderBoard.querySelectorAll('.result'));
 
     this.boardEl.classList.add(theme);
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
@@ -77,15 +103,12 @@ export default class GamePlay {
       const cellEl = this.boardEl.children[position.position];
       const charEl = document.createElement('div');
       charEl.classList.add('character', position.character.type);
-
       const healthEl = document.createElement('div');
       healthEl.classList.add('health-level');
-
       const healthIndicatorEl = document.createElement('div');
       healthIndicatorEl.classList.add('health-level-indicator', `health-level-indicator-${calcHealthLevel(position.character.health)}`);
       healthIndicatorEl.style.width = `${position.character.health}%`;
       healthEl.appendChild(healthIndicatorEl);
-
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
     }

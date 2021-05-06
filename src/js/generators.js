@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
-
 import Team from './Team';
+
 /**
  * Generates random characters
  *
@@ -14,23 +14,24 @@ export function* characterGenerator(allowedTypes, maxLevel) {
 }
 
 export function generateTeam(allowedTypes, maxLevel, characterCount) {
-  const userTeam = new Team();
-  const machineTeam = new Team();
+  const playerTeam = new Team();
+  const enemyTeam = new Team();
 
-  for (let i = 0; userTeam.array.length < characterCount; i += 1) {
+  for (let i = 0; playerTeam.array.length < characterCount; i += 1) {
     const generator = characterGenerator(allowedTypes, maxLevel);
     const char = generator.next();
-    if (char.value.type === 'bowman' || char.value.type === 'swordsman') {
-      userTeam.add(char.value);
+    if (char.value.type === 'swordsman' || char.value.type === 'bowman') {
+      playerTeam.add(char.value);
     }
   }
 
-  for (let i = 0; machineTeam.array.length < characterCount; i += 1) {
+  for (let i = 0; enemyTeam.array.length < characterCount; i += 1) {
     const generator = characterGenerator(allowedTypes, maxLevel);
     const char = generator.next();
-    if (char.value.type === 'vampire' || char.value.type === 'undead') {
-      machineTeam.add(char.value);
+    if (char.value.type === 'undead' || char.value.type === 'vampire') {
+      enemyTeam.add(char.value);
     }
   }
-  return [userTeam.array, machineTeam.array];
+
+  return [playerTeam.array, enemyTeam.array];
 }

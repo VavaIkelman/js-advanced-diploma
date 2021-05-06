@@ -5,20 +5,10 @@ export default class Character {
     this.defence = 0;
     this.health = 50;
     this.type = type;
-
+    // TODO: throw error if user use "new Character()"
     if (new.target.name === 'Character') {
-      throw new Error('Don\'t use new Character()');
+      throw new Error('You should use classes, inherited from Character');
     }
-  }
-}
-
-export class Bowman extends Character {
-  constructor(level, type = 'bowman') {
-    super(level, type);
-    this.attack = 25;
-    this.defence = 25;
-    this.stepRadius = 2;
-    this.attackRadius = 2;
   }
 }
 
@@ -32,6 +22,16 @@ export class Swordsman extends Character {
   }
 }
 
+export class Bowman extends Character {
+  constructor(level, type = 'bowman') {
+    super(level, type);
+    this.attack = 25;
+    this.defence = 25;
+    this.stepRadius = 2;
+    this.attackRadius = 2;
+  }
+}
+
 export class Magician extends Character {
   constructor(level, type = 'magician') {
     super(level, type);
@@ -42,16 +42,6 @@ export class Magician extends Character {
   }
 }
 
-export class Vampire extends Character {
-  constructor(level, type = 'vampire') {
-    super(level, type);
-    this.attack = 25;
-    this.defence = 25;
-    this.stepRadius = 2;
-    this.attackRadius = 2;
-  }
-}
-
 export class Undead extends Character {
   constructor(level, type = 'undead') {
     super(level, type);
@@ -59,6 +49,15 @@ export class Undead extends Character {
     this.defence = 10;
     this.stepRadius = 4;
     this.attackRadius = 1;
+  }
+}
+export class Vampire extends Character {
+  constructor(level, type = 'vampire') {
+    super(level, type);
+    this.attack = 25;
+    this.defence = 25;
+    this.stepRadius = 2;
+    this.attackRadius = 2;
   }
 }
 
