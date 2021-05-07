@@ -41,6 +41,8 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "-": "^0.0.1",
+    "@jest/globals": "^26.6.2",
     "core-js": "^3.11.2"
   }
 }

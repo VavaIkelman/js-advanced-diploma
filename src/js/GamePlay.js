@@ -35,28 +35,13 @@ export default class GamePlay {
         <button data-id="action-save" class="btn">Save Game</button>
         <button data-id="action-load" class="btn">Load Game</button>
       </div>
+      <div class="info">
+        <span data-id="level">LEVEL: 1</span>
+        <span data-id="score">SCORE: 0</span>
+        <span data-id="best-score">BEST: 0</span>
+      </div>
       <div class="board-container">
         <div data-id="board" class="board"></div>
-        <div data-id="scores" class="scores">
-          <div class="level">
-            <span></span>
-          </div>
-          <div class="points">
-            <span>points: 0</span>
-          </div>
-          <div class="leaderboard">
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-            <div class="result">0</div>
-          </div>
-        </div>
       </div>
     `;
 
@@ -68,13 +53,11 @@ export default class GamePlay {
     this.saveGameEl.addEventListener('click', (event) => this.onSaveGameClick(event));
     this.loadGameEl.addEventListener('click', (event) => this.onLoadGameClick(event));
 
-    this.boardEl = this.container.querySelector('[data-id=board]');
-    this.scoresEl = this.container.querySelector('[data-id=scores]');
+    this.currentLevel = this.container.querySelector('[data-id=level]');
+    this.score = this.container.querySelector('[data-id=score]');
+    this.bestScore = this.container.querySelector('[data-id=best-score]');
 
-    this.currentLevel = this.scoresEl.querySelector('.level');
-    this.points = this.scoresEl.querySelector('.points');
-    this.leaderBoard = this.scoresEl.querySelector('.leaderboard');
-    this.results = Array.from(this.leaderBoard.querySelectorAll('.result'));
+    this.boardEl = this.container.querySelector('[data-id=board]');
 
     this.boardEl.classList.add(theme);
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
@@ -103,12 +86,15 @@ export default class GamePlay {
       const cellEl = this.boardEl.children[position.position];
       const charEl = document.createElement('div');
       charEl.classList.add('character', position.character.type);
+
       const healthEl = document.createElement('div');
       healthEl.classList.add('health-level');
+
       const healthIndicatorEl = document.createElement('div');
       healthIndicatorEl.classList.add('health-level-indicator', `health-level-indicator-${calcHealthLevel(position.character.health)}`);
       healthIndicatorEl.style.width = `${position.character.health}%`;
       healthEl.appendChild(healthIndicatorEl);
+
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
     }
@@ -250,5 +236,20 @@ export default class GamePlay {
     if (this.container === null) {
       throw new Error('GamePlay not bind to DOM');
     }
+  }
+
+  // show the current level number on the board
+  setLevel(level) {
+    this.currentLevel.innerHTML = `LEVEL: ${level + 1}`;
+  }
+
+  // show the current score on the board
+  setScore(score) {
+    this.score.innerHTML = `SCORE: ${+score.toFixed(2)}`;
+  }
+
+  // show the best score on the board
+  setBestScore(score) {
+    this.bestScore.innerHTML = `BEST: ${+score.toFixed(2)}`;
   }
 }

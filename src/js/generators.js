@@ -1,6 +1,3 @@
-/* eslint-disable guard-for-in */
-import Team from './Team';
-
 /**
  * Generates random characters
  *
@@ -9,29 +6,34 @@ import Team from './Team';
  * @returns Character type children (ex. Magician, Bowman, etc)
  */
 export function* characterGenerator(allowedTypes, maxLevel) {
-  const char = Math.floor(Math.random() * allowedTypes.length);
-  yield new allowedTypes[char](maxLevel);
+  const rand = Math.floor(Math.random() * allowedTypes.length);
+  const genCharacter = Object.create(allowedTypes[rand]);
+  genCharacter.level = Math.floor(1 + Math.random() * maxLevel);
+  yield genCharacter;
 }
 
 export function generateTeam(allowedTypes, maxLevel, characterCount) {
-  const playerTeam = new Team();
-  const enemyTeam = new Team();
+  const team = [];
+  for (let i = 0; i < characterCount; i += 1) {
+    team.push(characterGenerator(allowedTypes, maxLevel).next().value);
+  }
+  return team;
+}
 
-  for (let i = 0; playerTeam.array.length < characterCount; i += 1) {
-    const generator = characterGenerator(allowedTypes, maxLevel);
-    const char = generator.next();
-    if (char.value.type === 'swordsman' || char.value.type === 'bowman') {
-      playerTeam.add(char.value);
-    }
+export function* positionGenerator(lines, boardSize) {
+  if (Math.max(lines) > boardSize - 1) {
+    throw new Error('Line`s number greater than board size!');
   }
 
-  for (let i = 0; enemyTeam.array.length < characterCount; i += 1) {
-    const generator = characterGenerator(allowedTypes, maxLevel);
-    const char = generator.next();
-    if (char.value.type === 'undead' || char.value.type === 'vampire') {
-      enemyTeam.add(char.value);
-    }
+  const allBoard = [...Array(boardSize ** 2).keys()];
+  const positionsArray = allBoard.filter((position) => lines.includes(position % boardSize));
+
+  for (let i = positionsArray.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [positionsArray[i], positionsArray[j]] = [positionsArray[j], positionsArray[i]];
   }
 
-  return [playerTeam.array, enemyTeam.array];
+  for (const position of positionsArray) {
+    yield position;
+  }
 }
